@@ -24,52 +24,30 @@ const db = getFirestore(app);
 
 let editID = null;
 
-/* =========================
-   LOAD GAMES
-========================= */
-
+/* LOAD GAMES */
 window.loadGames = async function () {
   const table = document.getElementById("gameTable");
   table.innerHTML = "";
-
   const querySnapshot = await getDocs(collection(db, "games"));
-
   querySnapshot.forEach((docSnap) => {
     const game = docSnap.data();
     const id = docSnap.id;
-
     table.innerHTML += `
       <tr>
-        <td class="p-2">
-          <img src="${game.image}" class="w-16 h-16 object-cover mx-auto">
-        </td>
-
+        <td class="p-2"><img src="${game.image}" class="w-16 h-16 object-cover mx-auto"></td>
         <td>${game.name}</td>
         <td>${game.category}</td>
-
         <td class="space-x-2">
-
-          <button onclick="openEdit('${id}')"
-          class="bg-yellow-500 text-white px-2 py-1 rounded">
-          Edit
-          </button>
-
-          <button onclick="deleteGame('${id}')"
-          class="bg-red-500 text-white px-2 py-1 rounded">
-          Delete
-          </button>
-
+          <button onclick="openEdit('${id}')" class="bg-yellow-500 text-white px-2 py-1 rounded">Edit</button>
+          <button onclick="deleteGame('${id}')" class="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
         </td>
-      </tr>
-    `;
+      </tr>`;
   });
 };
 
-/* =========================
-   ADD GAME
-========================= */
-
+/* ADD GAME (Base64 - อัปโหลดไวที่สุด) */
 window.addGame = function () {
+  const btn = document.getElementById("addBtn");
   const name = document.getElementById("name").value;
   const category = document.getElementById("category").value;
   const desc = document.getElementById("desc").value;
@@ -80,97 +58,72 @@ window.addGame = function () {
     return;
   }
 
+  // เปลี่ยนสถานะปุ่มกันกดย้ำ
+  btn.disabled = true;
+  btn.innerText = "กำลังอัปโหลด...";
+
   const reader = new FileReader();
-
   reader.onload = async function () {
-    await addDoc(collection(db, "games"), {
-      name,
-      category,
-      desc,
-      image: reader.result
-    });
-
-    document.getElementById("name").value = "";
-    document.getElementById("desc").value = "";
-    document.getElementById("image").value = "";
-
-    loadGames();
+    try {
+      await addDoc(collection(db, "games"), {
+        name,
+        category,
+        desc,
+        image: reader.result
+      });
+      document.getElementById("name").value = "";
+      document.getElementById("desc").value = "";
+      document.getElementById("image").value = "";
+      loadGames();
+    } catch (err) {
+      alert("บันทึกไม่สำเร็จ");
+    } finally {
+      btn.disabled = false;
+      btn.innerText = "Add Game";
+    }
   };
-
   reader.readAsDataURL(file);
 };
 
-/* =========================
-   DELETE GAME
-========================= */
-
+/* DELETE GAME */
 window.deleteGame = async function (id) {
   if (!confirm("ต้องการลบเกมนี้หรือไม่?")) return;
-
   await deleteDoc(doc(db, "games", id));
   loadGames();
 };
 
-/* =========================
-   OPEN EDIT
-========================= */
-
+/* OPEN EDIT */
 window.openEdit = async function (id) {
   editID = id;
-
   const snap = await getDoc(doc(db, "games", id));
   const game = snap.data();
-
   document.getElementById("editName").value = game.name;
   document.getElementById("editCategory").value = game.category;
   document.getElementById("editDesc").value = game.desc;
-
   document.getElementById("editPopup").classList.remove("hidden");
 };
 
-/* =========================
-   CLOSE EDIT
-========================= */
-
+/* CLOSE EDIT */
 window.closeEdit = function () {
   document.getElementById("editPopup").classList.add("hidden");
 };
 
-/* =========================
-   SAVE EDIT
-========================= */
-
+/* SAVE EDIT */
 window.saveEdit = async function () {
   const name = document.getElementById("editName").value;
   const category = document.getElementById("editCategory").value;
   const desc = document.getElementById("editDesc").value;
-
   let file = document.getElementById("editImage").files[0];
 
   if (file) {
     let reader = new FileReader();
-
     reader.onload = async function (e) {
-      await updateDoc(doc(db, "games", editID), {
-        name,
-        category,
-        desc,
-        image: e.target.result
-      });
-
-      closeEdit();
-      loadGames();
+      await updateDoc(doc(db, "games", editID), { name, category, desc, image: e.target.result });
+      closeEdit(); loadGames();
     };
-
     reader.readAsDataURL(file);
   } else {
-    await updateDoc(doc(db, "games", editID), {
-      name,
-      category,
-      desc
-    });
-
-    closeEdit();
-    loadGames();
+    await updateDoc(doc(db, "games", editID), { name, category, desc });
+    closeEdit(); loadGames();
   }
 };

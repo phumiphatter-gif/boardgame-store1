@@ -1,197 +1,111 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-<meta charset="UTF-8">
-<title>Admin</title>
-<link href="./dist/output.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Admin</title>
+    <link href="./dist/output.css" rel="stylesheet">
 </head>
-
 <body class="bg-gray-100 p-8">
 
-<!-- LOGIN -->
-
 <div id="loginPage" class="flex items-center justify-center h-screen">
-
-<div class="bg-white p-8 rounded shadow w-80">
-
-<h2 class="text-2xl font-bold mb-4 text-center">
-Admin Login
-</h2>
-
-<input id="user" type="text" placeholder="Username" class="border w-full p-2 mb-3">
-
-<input id="pass" type="password" placeholder="Password" class="border w-full p-2 mb-4">
-
-<button onclick="login()" class="bg-red-500 text-white w-full py-2 rounded">
-Login
-</button>
-
+    <div class="bg-white p-8 rounded shadow w-80">
+        <h2 class="text-2xl font-bold mb-4 text-center">Admin Login</h2>
+        <input id="user" type="text" placeholder="Username" class="border w-full p-2 mb-3">
+        <input id="pass" type="password" placeholder="Password" class="border w-full p-2 mb-4">
+        <button onclick="login()" class="bg-red-500 text-white w-full py-2 rounded">Login</button>
+    </div>
 </div>
-
-</div>
-
-
-<!-- ADMIN PAGE -->
 
 <div id="adminPage" class="hidden">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold">Game Manager</h1>
+        <div class="flex gap-2">
+            <button onclick="goHome()" class="bg-gray-400 text-white px-4 py-2 rounded">หน้าแรก</button>
+            <button onclick="logout()" class="bg-red-500 text-white px-4 py-2 rounded">Logout</button>
+        </div>
+    </div>
 
-<div class="flex justify-between items-center mb-6">
+    <div class="bg-white p-4 rounded shadow mb-6 flex gap-3 flex-wrap">
+        <input id="name" placeholder="Game Name" class="border p-2">
+        <select id="category" class="border p-2">
+            <option>Strategy Games</option>
+            <option>Family Games</option>
+            <option>Party Games</option>
+            <option>Card Games</option>
+        </select>
+        <input id="image" type="file">
+        <input id="desc" placeholder="รายละเอียดเกม" class="border p-2">
+        <button id="addBtn" onclick="addGame()" class="bg-green-500 text-white px-4 py-2 rounded transition">
+            Add Game
+        </button>
+    </div>
 
-<h1 class="text-3xl font-bold">
-Game Manager
-</h1>
-
-<button onclick="logout()" class="bg-red-500 text-white px-4 py-2 rounded">
-Logout
-</button>
-
+    <table class="w-full bg-white shadow text-center">
+        <thead class="bg-gray-200">
+            <tr>
+                <th class="p-2">รูปเกม</th>
+                <th class="p-2">ชื่อเกม</th>
+                <th class="p-2">หมวดหมู่</th>
+                <th class="p-2">จัดการ</th>
+            </tr>
+        </thead>
+        <tbody id="gameTable"></tbody>
+    </table>
 </div>
 
-
-<!-- ADD GAME -->
-
-<div class="bg-white p-4 rounded shadow mb-6 flex gap-3 flex-wrap">
-
-<input id="name" placeholder="Game Name" class="border p-2">
-
-<select id="category" class="border p-2">
-
-<option>Strategy Games</option>
-<option>Family Games</option>
-<option>Party Games</option>
-<option>Card Games</option>
-
-</select>
-
-<input id="image" type="file">
-
-<input id="desc" placeholder="รายละเอียดเกม" class="border p-2">
-
-<button onclick="addGame()" class="bg-green-500 text-white px-4 py-2 rounded">
-Add Game
-</button>
-
+<div id="editPopup" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+    <div class="bg-white p-6 rounded-lg w-96">
+        <h2 class="text-xl font-bold mb-4 text-center">แก้ไขเกม</h2>
+        <input id="editName" placeholder="ชื่อเกม" class="border w-full p-2 mb-3">
+        <select id="editCategory" class="border w-full p-2 mb-3">
+            <option>Strategy Games</option>
+            <option>Family Games</option>
+            <option>Party Games</option>
+            <option>Card Games</option>
+        </select>
+        <input id="editImage" type="file" class="mb-3">
+        <input id="editDesc" placeholder="รายละเอียดเกม" class="border w-full p-2 mb-4">
+        <div class="flex justify-between">
+            <button onclick="closeEdit()" class="bg-gray-400 text-white px-4 py-2 rounded">ยกเลิก</button>
+            <button onclick="saveEdit()" class="bg-green-500 text-white px-4 py-2 rounded">บันทึก</button>
+        </div>
+    </div>
 </div>
-
-
-<!-- GAME TABLE -->
-
-<table class="w-full bg-white shadow text-center">
-
-<thead class="bg-gray-200">
-
-<tr>
-
-<th class="p-2">รูปเกม</th>
-<th class="p-2">ชื่อเกม</th>
-<th class="p-2">หมวดหมู่</th>
-<th class="p-2">จัดการ</th>
-
-</tr>
-
-</thead>
-
-<tbody id="gameTable"></tbody>
-
-</table>
-
-</div>
-
-
-<!-- EDIT POPUP -->
-
-<div id="editPopup"
-class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
-
-<div class="bg-white p-6 rounded-lg w-96">
-
-<h2 class="text-xl font-bold mb-4 text-center">
-แก้ไขเกม
-</h2>
-
-<input id="editName" placeholder="ชื่อเกม"
-class="border w-full p-2 mb-3">
-
-<select id="editCategory"
-class="border w-full p-2 mb-3">
-
-<option>Strategy Games</option>
-<option>Family Games</option>
-<option>Party Games</option>
-<option>Card Games</option>
-
-</select>
-
-<input id="editImage" type="file" class="mb-3">
-
-<input id="editDesc"
-placeholder="รายละเอียดเกม"
-class="border w-full p-2 mb-4">
-
-<div class="flex justify-between">
-
-<button onclick="closeEdit()"
-class="bg-gray-400 text-white px-4 py-2 rounded">
-ยกเลิก
-</button>
-
-<button onclick="saveEdit()"
-class="bg-green-500 text-white px-4 py-2 rounded">
-บันทึก
-</button>
-
-</div>
-
-</div>
-
-</div>
-
 
 <script type="module" src="admin.js"></script>
 
-
 <script>
+    function login(){
+        let u=document.getElementById("user").value
+        let p=document.getElementById("pass").value
+        if(u==="admin" && p==="1234"){
+            localStorage.setItem("admin","true")
+            showAdmin()
+        }else{
+            alert("Username หรือ Password ไม่ถูกต้อง")
+        }
+    }
 
-function login(){
+    function showAdmin(){
+        document.getElementById("loginPage").style.display="none"
+        document.getElementById("adminPage").style.display="block"
+        if(window.loadGames) window.loadGames();
+    }
 
-let u=document.getElementById("user").value
-let p=document.getElementById("pass").value
+    // ฟังก์ชัน Logout อัตโนมัติและไปหน้าแรก
+    function goHome(){
+        localStorage.removeItem("admin");
+        window.location.href = "index.html"; 
+    }
 
-if(u==="admin" && p==="1234"){
+    function logout(){
+        localStorage.removeItem("admin");
+        location.reload();
+    }
 
-localStorage.setItem("admin","true")
-showAdmin()
-
-}else{
-
-alert("Username หรือ Password ไม่ถูกต้อง")
-
-}
-
-}
-
-function showAdmin(){
-
-document.getElementById("loginPage").style.display="none"
-document.getElementById("adminPage").style.display="block"
-
-loadGames()
-
-}
-
-if(localStorage.getItem("admin")==="true"){
-showAdmin()
-}
-
-function logout(){
-
-localStorage.removeItem("admin")
-location.reload()
-
-}
-
+    if(localStorage.getItem("admin")==="true"){
+        showAdmin()
+    }
 </script>
-
 </body>
 </html>

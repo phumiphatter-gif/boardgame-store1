@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="./dist/output.css" rel="stylesheet">
+
+<title>NTER Board Game Cafe</title>
+
+</head>
+
+
+
+<body class="bg-gray-100">
+
+
+<!-- NAVBAR -->
+
+<nav class="bg-white shadow sticky top-0 z-50">
+
+<div class="max-w-6xl mx-auto flex justify-between items-center p-4">
+
+<h1 class="text-xl font-bold">NTER</h1>
+
+<div class="space-x-6">
+
+<a href="#home">Home</a>
+<a href="#category">Category</a>
+<a href="#contact">Contact</a>
+
+<a href="admin.html"
+class="bg-red-500 text-white px-3 py-1 rounded">
+
+Admin
+
+</a>
+
+</div>
+
+</div>
+
+</nav>
+
+<!-- HERO -->
+
+<section id="home" class="bg-red-600 text-white py-16">
+
+<div class="max-w-4xl mx-auto text-center">
+
+<h2 class="text-4xl font-bold mb-4">
+NTER Board Game Cafe
+</h2>
+
+<p class="mb-6">
+Enjoy a wide selection of board games
+</p>
+
+<div class="flex justify-center gap-3 flex-wrap mt-6">
+
+<input
+id="search"
+type="text"
+placeholder="ค้นหาชื่อเกม"
+onkeyup="filterGames()"
+class="px-4 py-2 rounded bg-white text-black border w-64"
+/>
+
+<select
+id="categoryFilter"
+onchange="filterGames()"
+class="px-4 py-2 rounded bg-white text-black border">
+
+<option value="All">ทั้งหมด</option>
+<option value="Strategy Games">Strategy Games</option>
+<option value="Family Games">Family Games</option>
+<option value="Party Games">Party Games</option>
+<option value="Card Games">Card Games</option>
+
+</select>
+
+<button
+onclick="filterGames()"
+class="bg-white text-red-600 px-4 py-2 rounded font-semibold hover:bg-gray-200">
+
+ค้นหา
+
+</button>
+
+</div>
+</section>
+
+<!-- GAME LIST -->
+
+<section id="category" class="max-w-6xl mx-auto py-10 px-4">
+
+<h2 class="text-2xl font-bold mb-6">
+Recommended Games
+</h2>
+
+<div id="games"
+class="grid md:grid-cols-3 sm:grid-cols-2 gap-6">
+
+</div>
+
+</section>
+
+<!-- POPUP -->
+
+   <div id="popup"
+class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+
+<div class="bg-white p-6 rounded-lg w-80 text-center">
+
+<img id="popupImg"
+class="w-full h-40 object-cover mb-2">
+
+<h2 id="popupName"
+class="text-xl font-bold"></h2>
+
+<p id="popupCategory"
+class="text-gray-500"></p>
+
+<p id="popupDesc"
+class="mt-2"></p>
+
+<button onclick="closePopup()"
+class="mt-4 bg-red-500 text-white px-4 py-2 rounded">
+ปิด
+</button>
+
+</div>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<footer id="contact" class="bg-white py-12 border-t">
+
+<div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10">
+
+<div class="space-y-4">
+<h3 class="text-xl font-bold text-gray-800">NTER Board Game Cafe</h3>
+
+<div class="text-gray-600 space-y-2">
+<p class="font-medium text-gray-800">เครื่องดื่มร้อน-เย็น คุณภาพ & Nintendo Switch</p>
+
+<p>
+ค่าบริการ Board Game และ Nintendo Switch:
+<span class="font-semibold text-red-600">30 บาท/ชั่วโมง/คน</span>
+</p>
+
+<p class="bg-red-50 p-3 rounded-lg border-l-4 border-red-500">
+🔥 <span class="font-bold">โปรโมชั่น:</span>
+เล่นเกิน 4 ชั่วโมง คิดราคาบุฟเฟ่ต์เพียง
+<span class="font-bold">119 บาท</span>
+</p>
+</div>
+
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+
+<div>
+<h3 class="text-lg font-bold mb-3">Contact</h3>
+
+<ul class="text-gray-600 space-y-1">
+<li><strong>Line:</strong> @ntercafe</li>
+<li><strong>Facebook:</strong> NTER Board Game cafe</li>
+<li><strong>โทร:</strong> 080-5359565</li>
+<li class="ml-8">062-8244555</li>
+</ul>
+
+</div>
+
+<div>
+
+<h3 class="text-lg font-bold mb-3">เวลาเปิดร้าน</h3>
+
+<p class="text-gray-600">วันอังคาร - วันศุกร์</p>
+
+<p class="text-xl font-semibold text-gray-800">
+12:00 - 24:00 น.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="max-w-6xl mx-auto px-6 mt-10 pt-6 border-t text-center text-gray-400 text-sm">
+&copy; 2026 NTER Board Game Cafe. All rights reserved.
+</div>
+
+</footer>
+
+<script type="module" src="script.js"></script>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAnug1LvphDK9nJE25Pxj6Loy9jbfw4LdM",
+  authDomain: "boardgame-store-d6a50.firebaseapp.com",
+  projectId: "boardgame-store-d6a50",
+  storageBucket: "boardgame-store-d6a50.firebasestorage.app",
+  messagingSenderId: "587237445477",
+  appId: "1:587237445477:web:542283bb74a03c55de9b8c"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+</script>
+
+</body>
+</html>
+

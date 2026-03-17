@@ -1,14 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  deleteDoc,
-  doc,
-  updateDoc,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAnug1LvphDK9nJE25Pxj6Loy9jbfw4LdM",
@@ -21,109 +12,108 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
 let editID = null;
+let editCatID = null;
 
-/* LOAD GAMES */
-window.loadGames = async function () {
-  const table = document.getElementById("gameTable");
-  table.innerHTML = "";
-  const querySnapshot = await getDocs(collection(db, "games"));
+/* CATEGORY FUNCTIONS */
+window.loadCategories = async function () {
+  const catTable = document.getElementById("catTable");
+  const catSelect = document.getElementById("category");
+  const editCatSelect = document.getElementById("editCategory");
+  const totalCatText = document.getElementById("totalCategories");
+
+  catTable.innerHTML = ""; catSelect.innerHTML = ""; if(editCatSelect) editCatSelect.innerHTML = "";
+  
+  const querySnapshot = await getDocs(collection(db, "categories"));
+  let count = 0;
+
   querySnapshot.forEach((docSnap) => {
-    const game = docSnap.data();
-    const id = docSnap.id;
-    table.innerHTML += `
-      <tr>
-        <td class="p-2"><img src="${game.image}" class="w-16 h-16 object-cover mx-auto"></td>
-        <td>${game.name}</td>
-        <td>${game.category}</td>
-        <td class="space-x-2">
-          <button onclick="openEdit('${id}')" class="bg-yellow-500 text-white px-2 py-1 rounded">Edit</button>
-          <button onclick="deleteGame('${id}')" class="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
-        </td>
-      </tr>`;
+    const cat = docSnap.data().name; const id = docSnap.id; count++;
+    catTable.innerHTML += `<tr class="border-b">
+        <td class="p-2 border pl-4">${cat}</td>
+        <td class="p-2 border text-center space-x-2">
+          <button onclick="openEditCat('${id}', '${cat}')" class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">Edit</button>
+          <button onclick="deleteCategory('${id}')" class="bg-red-500 text-white px-2 py-1 rounded text-xs">Delete</button>
+        </td></tr>`;
+    const option = `<option value="${cat}">${cat}</option>`;
+    catSelect.innerHTML += option; if(editCatSelect) editCatSelect.innerHTML += option;
   });
+  totalCatText.innerText = count;
 };
 
-/* ADD GAME (Base64 - อัปโหลดไวที่สุด) */
+window.addCategory = async function () {
+  const input = document.getElementById("newCatInput");
+  if (!input.value.trim()) return alert("กรุณากรอกชื่อหมวดหมู่");
+  await addDoc(collection(db, "categories"), { name: input.value.trim() });
+  input.value = ""; await loadCategories();
+};
+
+window.openEditCat = (id, name) => {
+  editCatID = id; document.getElementById("editCatName").value = name;
+  document.getElementById("editCatPopup").classList.remove("hidden");
+};
+window.closeEditCat = () => document.getElementById("editCatPopup").classList.add("hidden");
+
+window.saveEditCat = async function () {
+  await updateDoc(doc(db, "categories", editCatID), { name: document.getElementById("editCatName").value });
+  closeEditCat(); loadCategories(); loadGames();
+};
+
+window.deleteCategory = async function (id) {
+  if (confirm("ลบหมวดหมู่หรือไม่?")) { await deleteDoc(doc(db, "categories", id)); loadCategories(); }
+};
+
+/* GAME FUNCTIONS */
+window.loadGames = async function () {
+  const table = document.getElementById("gameTable");
+  table.innerHTML = ""; await loadCategories();
+  const querySnapshot = await getDocs(collection(db, "games"));
+  let gameCount = 0;
+  querySnapshot.forEach((docSnap) => {
+    const game = docSnap.data(); const id = docSnap.id; gameCount++;
+    table.innerHTML += `<tr class="border-b">
+        <td class="p-2"><img src="${game.image}" class="w-16 h-16 object-cover mx-auto rounded shadow"></td>
+        <td class="font-medium">${game.name}</td><td>${game.category}</td><td class="space-x-2">
+          <button onclick="openEdit('${id}')" class="bg-yellow-500 text-white px-2 py-1 rounded text-sm">Edit</button>
+          <button onclick="deleteGame('${id}')" class="bg-red-500 text-white px-2 py-1 rounded text-sm">Delete</button>
+        </td></tr>`;
+  });
+  document.getElementById("totalGames").innerText = gameCount;
+};
+
 window.addGame = function () {
   const btn = document.getElementById("addBtn");
-  const name = document.getElementById("name").value;
-  const category = document.getElementById("category").value;
-  const desc = document.getElementById("desc").value;
   const file = document.getElementById("image").files[0];
-
-  if (!name || !file) {
-    alert("กรอกชื่อเกมและเลือกรูปก่อน");
-    return;
-  }
-
-  // เปลี่ยนสถานะปุ่มกันกดย้ำ
-  btn.disabled = true;
-  btn.innerText = "กำลังอัปโหลด...";
-
+  if (!document.getElementById("name").value || !file) return alert("ข้อมูลไม่ครบ");
+  btn.innerText = "กำลังอัปโหลด..."; btn.disabled = true;
   const reader = new FileReader();
   reader.onload = async function () {
-    try {
-      await addDoc(collection(db, "games"), {
-        name,
-        category,
-        desc,
-        image: reader.result
-      });
-      document.getElementById("name").value = "";
-      document.getElementById("desc").value = "";
-      document.getElementById("image").value = "";
-      loadGames();
-    } catch (err) {
-      alert("บันทึกไม่สำเร็จ");
-    } finally {
-      btn.disabled = false;
-      btn.innerText = "Add Game";
-    }
+    await addDoc(collection(db, "games"), { 
+        name: document.getElementById("name").value, 
+        category: document.getElementById("category").value, 
+        desc: document.getElementById("desc").value, 
+        image: reader.result 
+    });
+    btn.innerText = "Add Game"; btn.disabled = false; 
+    document.getElementById("name").value = ""; document.getElementById("image").value = ""; 
+    loadGames();
   };
   reader.readAsDataURL(file);
 };
 
-/* DELETE GAME */
-window.deleteGame = async function (id) {
-  if (!confirm("ต้องการลบเกมนี้หรือไม่?")) return;
-  await deleteDoc(doc(db, "games", id));
-  loadGames();
-};
-
-/* OPEN EDIT */
+window.deleteGame = async function (id) { if (confirm("ลบเกมหรือไม่?")) { await deleteDoc(doc(db, "games", id)); loadGames(); } };
 window.openEdit = async function (id) {
-  editID = id;
-  const snap = await getDoc(doc(db, "games", id));
-  const game = snap.data();
-  document.getElementById("editName").value = game.name;
-  document.getElementById("editCategory").value = game.category;
-  document.getElementById("editDesc").value = game.desc;
-  document.getElementById("editPopup").classList.remove("hidden");
+  editID = id; const snap = await getDoc(doc(db, "games", id)); const game = snap.data();
+  document.getElementById("editName").value = game.name; document.getElementById("editCategory").value = game.category;
+  document.getElementById("editDesc").value = game.desc; document.getElementById("editPopup").classList.remove("hidden");
 };
-
-/* CLOSE EDIT */
-window.closeEdit = function () {
-  document.getElementById("editPopup").classList.add("hidden");
-};
-
-/* SAVE EDIT */
+window.closeEdit = () => document.getElementById("editPopup").classList.add("hidden");
 window.saveEdit = async function () {
-  const name = document.getElementById("editName").value;
-  const category = document.getElementById("editCategory").value;
-  const desc = document.getElementById("editDesc").value;
-  let file = document.getElementById("editImage").files[0];
-
+  const data = { name: document.getElementById("editName").value, category: document.getElementById("editCategory").value, desc: document.getElementById("editDesc").value };
+  const file = document.getElementById("editImage").files[0];
   if (file) {
-    let reader = new FileReader();
-    reader.onload = async function (e) {
-      await updateDoc(doc(db, "games", editID), { name, category, desc, image: e.target.result });
-      closeEdit(); loadGames();
-    };
+    const reader = new FileReader();
+    reader.onload = async function (e) { data.image = e.target.result; await updateDoc(doc(db, "games", editID), data); closeEdit(); loadGames(); };
     reader.readAsDataURL(file);
-  } else {
-    await updateDoc(doc(db, "games", editID), { name, category, desc });
-    closeEdit(); loadGames();
-  }
+  } else { await updateDoc(doc(db, "games", editID), data); closeEdit(); loadGames(); }
 };

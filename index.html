@@ -78,19 +78,11 @@
   </section>
 
   <!-- GAME LIST -->
-
-  <section id="category" class="max-w-6xl mx-auto py-10 px-4">
-
-    <h2 class="text-2xl font-bold mb-6">
-      Recommended Games
-    </h2>
-
-    <div id="games" class="grid md:grid-cols-3 sm:grid-cols-2 gap-6">
-
-    </div>
-
-  </section>
-
+\<section id="category" class="max-w-6xl mx-auto py-10 px-4">
+  <h2 class="text-2xl font-bold mb-6">Recommended Games</h2>
+  <div id="games" class="grid md:grid-cols-3 sm:grid-cols-2 gap-8"></div>
+  <div id="pagination" class="flex justify-center items-center gap-2 mt-12 flex-wrap"></div>
+</section>
   <!-- POPUP -->
 
   <div id="popup" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
@@ -116,10 +108,12 @@
 
   <!-- FOOTER -->
 
+  <!-- FOOTER -->
   <footer id="contact" class="bg-white py-12 border-t">
 
-    <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10">
+    <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10">
 
+      <!-- LEFT -->
       <div class="space-y-4">
         <h3 class="text-xl font-bold text-gray-800">NTER Board Game Cafe</h3>
 
@@ -127,51 +121,56 @@
           <p class="font-medium text-gray-800">เครื่องดื่มร้อน-เย็น คุณภาพ & Nintendo Switch</p>
 
           <p>
-            ค่าบริการ Board Game และ Nintendo Switch:
-            <span class="font-semibold text-red-600">30 บาท/ชั่วโมง/คน</span>
+            ค่าบริการ:
+            <span class="font-semibold text-red-500">30 บาท/ชั่วโมง/คน</span>
           </p>
 
           <p class="bg-red-50 p-3 rounded-lg border-l-4 border-red-500">
-            🔥 <span class="font-bold">โปรโมชั่น:</span>
-            เล่นเกิน 4 ชั่วโมง คิดราคาบุฟเฟ่ต์เพียง
-            <span class="font-bold">119 บาท</span>
+            🔥 โปรโมชั่น: เล่นเกิน 4 ชั่วโมง 119 บาท
           </p>
         </div>
-
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+      <!-- CONTACT -->
+      <div>
+        <h3 class="text-lg font-bold mb-3">Contact</h3>
 
-        <div>
-          <h3 class="text-lg font-bold mb-3">Contact</h3>
+        <ul class="text-gray-600 space-y-1">
+          <li><strong>Line:</strong> @ntercafe</li>
+          <li><strong>Facebook:</strong> NTER Board Game cafe</li>
+          <li><strong>โทร:</strong> 080-5359565</li>
+          <li class="ml-8">062-8244555</li>
+        </ul>
 
-          <ul class="text-gray-600 space-y-1">
-            <li><strong>Line:</strong> @ntercafe</li>
-            <li><strong>Facebook:</strong> NTER Board Game cafe</li>
-            <li><strong>โทร:</strong> 080-5359565</li>
-            <li class="ml-8">062-8244555</li>
-          </ul>
+        <h3 class="text-lg font-bold mt-6 mb-2">Open - Closed</h3>
+        <p class="text-gray-600">อังคาร - ศุกร์</p>
+        <p class="text-xl font-semibold text-gray-800">12:00 - 24:00</p>
+      </div>
 
+      <!-- MAP -->
+      <div>
+        <h3 class="text-lg font-bold mb-3">Location</h3>
+
+        <div class="rounded-xl overflow-hidden shadow border hover:shadow-xl transition">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7653.625415914086!2d102.82500690919078!3d16.43433579712373!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31228bdf2cd62fb3%3A0xa266bc09c48a2098!2zTlRFUiDguJrguK3guKPguYzguJTguYDguIHguKHguITguLLguYDguJ_guYg!5e0!3m2!1sth!2sth!4v1774450085846!5m2!1sth!2sth"
+            class="w-full h-48 grayscale opacity-90"
+            style="border:0;"
+            loading="lazy">
+          </iframe>
         </div>
 
-        <div>
-
-          <h3 class="text-lg font-bold mb-3">Open - Closed</h3>
-
-          <p class="text-gray-600">วันอังคาร - วันศุกร์</p>
-
-          <p class="text-xl font-semibold text-gray-800">
-            12:00 - 24:00 น.
-          </p>
-
-        </div>
-
+        <a href="https://maps.google.com/?q=16.43433579712373,102.82500690919078"
+          target="_blank"
+          class="inline-block mt-2 text-sm text-blue-600 hover:underline">
+          📍 เปิดใน Google Maps
+        </a>
       </div>
 
     </div>
 
     <div class="max-w-6xl mx-auto px-6 mt-10 pt-6 border-t text-center text-gray-400 text-sm">
-      &copy; 2026 NTER Board Game Cafe. All rights reserved.
+      &copy; 2026 NTER Board Game Cafe
     </div>
 
   </footer>

@@ -19,70 +19,120 @@
   <!-- NAVBAR -->
 
   <nav class="bg-white shadow sticky top-0 z-50">
-  <div class="max-w-6xl mx-auto flex justify-between items-center p-4">
+    <div class="max-w-6xl mx-auto flex justify-between items-center p-4">
 
-    <a href="index.html" class="flex items-center">
-      <div style="width: 50px; height: 50px;" class="overflow-hidden rounded">
-        <img src="assets/img/Logo.jpg" class="h-full w-full object-cover">
-      </div>
-    </a>
-
-    <div class="flex items-center space-x-2 md:space-x-6 text-xs md:text-base">
-      <a href="#home" class="hover:text-red-600">หน้าแรก</a>
-      <a href="#category" class="hover:text-red-600">หมวดหมู่</a>
-      <a href="#contact" class="hover:text-red-600">ติดต่อเรา</a>
-
-      <a href="admin.html" class="bg-red-500 text-white px-2 py-1 md:px-4 md:py-1 rounded">
-        Admin
+      <a href="index.html" class="flex items-center">
+        <div style="width: 50px; height: 50px;" class="overflow-hidden rounded">
+          <img src="assets/img/Logo.jpg" class="h-full w-full object-cover">
+        </div>
       </a>
-    </div>
 
-  </div>
-</nav>
+      <div class="flex items-center space-x-2 md:space-x-6 text-xs md:text-base">
+        <a href="#home" class="hover:text-red-600">หน้าแรก</a>
+        <a href="#category" class="hover:text-red-600">หมวดหมู่</a>
+        <a href="#contact" class="hover:text-red-600">ติดต่อเรา</a>
+
+        <a href="admin.html" class="bg-red-500 text-white px-2 py-1 md:px-4 md:py-1 rounded">
+          Admin
+        </a>
+      </div>
+
+    </div>
+  </nav>
+
+
 
   <!-- HERO -->
 
-  <section id="home" class="bg-red-600 text-white py-16">
+  <section id="home"
+    style="position: relative; min-height: 65vh; display: flex; align-items: center; justify-content: center; overflow: hidden; bg-neutral-900; background-color: #000000; font-family: sans-serif; color: white;">
 
-    <div class="max-w-4xl mx-auto text-center">
-
-      <h2 class="text-4xl font-bold mb-4">
-        NTER Board Game Cafe
-      </h2>
+    <div
+      style="position: absolute; inset: 0; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); opacity: 0.1; z-index: 1;">
+    </div>
 
 
-      <div class="flex justify-center gap-3 flex-wrap mt-6">
 
-        <input id="search" type="text" placeholder="ค้นหาชื่อเกม" onkeyup="filterGames()"
-          class="px-4 py-2 rounded bg-white text-black border w-64" />
+    <div style="position: relative; z-index: 10; width: 100%; max-width: 1000px; padding: 2rem; text-align: center;">
 
-        <select id="categoryFilter" onchange="filterGames()" class="px-4 py-2 rounded bg-white text-black border">
 
-          <option value="All">ทั้งหมด</option>             
-          <option value="เกมวางแผน">เกมวางแผน</option>
-          <option value="เกมปาร์ตี้">เกมปาร์ตี้</option>
-          <option value="เกมการ์ด">เกมการ์ด</option>
-          <option value="เกมจับโกหก">เกมจับโกหก</option>
-           <option value="เกมบริหารทรัพยากร">เกมบริหารทรัพยากร</option>
-      
 
-        </select>
+      <span
+        style="display: inline-block; padding: 0.5rem 1rem; margin-bottom: 2rem; border-radius: 9999px; background-color: white; color: #1f2937; font-size: 0.875rem; font-weight: bold; text-transform: uppercase; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
 
-        <button onclick="filterGames()" class="bg-white text-red-600 px-4 py-2 rounded font-semibold hover:bg-gray-200">
+        Welcome to NTER Cafe
 
-          ค้นหา
+      </span>
 
-        </button>
+
+
+      <div style="margin-bottom: 3rem;">
+
+        <h2 style="font-size: 3rem; font-weight: 800; margin-bottom: 1.5rem; line-height: 1.2;">
+
+          NTER <span style="color: #ff8095;">Board Game</span> Cafe
+
+        </h2>
+
+        <p style="font-size: 1.25rem; font-weight: 300; line-height: 1.6; color: #d1d5db; margin-bottom: 1rem;">
+
+          สนุกได้ทุกวัน กับเกมกระดานมากมาย🎲
+
+        </p>
+
+        <p style="font-size: 1rem; color: #9ca3af; max-width: 600px; margin: 0 auto; line-height: 1.5;">
+
+          มีบอร์ดเกมให้เลือกหลากหลายประเภท พบประสบการณ์บอร์ดเกมที่แตกต่างได้ที่
+
+          <span style="font-weight: bold; color: white;">NTER Board Game Cafe</span>
+
+        </p>
 
       </div>
+
+
+
+     <div style="display: flex; flex-wrap: wrap; background-color: white; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 95%; max-width: 800px; margin: 2rem auto; overflow: hidden; border: 1px solid #e5e7eb;">
+
+  <div style="flex: 2; min-width: 250px; position: relative; border-right: 1px solid #e5e7eb; background-color: white;">
+    <span style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #9ca3af;">🔍</span>
+    <input id="search" type="text" placeholder="ค้นหาชื่อเกมที่ต้องการ..." onkeyup="filterGames()"
+           style="width: 100%; padding: 1.2rem 1rem 1.2rem 3.5rem; border: none; font-size: 1.125rem; outline: none; background-color: white; color: #000000 !important;">
+  </div>
+
+  <div style="flex: 1; min-width: 180px; border-right: 1px solid #e5e7eb; background-color: white;">
+    <select id="categoryFilter" onchange="filterGames()"
+            style="width: 100%; padding: 1.2rem; border: none; font-size: 1rem; outline: none; background-color: white; cursor: pointer; color: #000000; height: 100%;">
+      <option value="All">เกมทั้งหมด</option>
+      <option value="เกมวางแผน">เกมวางแผน</option>
+      <option value="เกมปาร์ตี้">เกมปาร์ตี้</option>
+      <option value="เกมการ์ด">เกมการ์ด</option>
+      <option value="เกมจับโกหก">เกมจับโกหก</option>
+      <option value="เกมบริหารทรัพยากร">เกมบริหารทรัพยากร</option>
+    </select>
+  </div>
+
+  <button onclick="filterGames()"
+          style="flex: 1; min-width: 120px; background: linear-gradient(to right, #ef4444, #ee2222); color: #000000 !important; border: none; font-weight: 800; font-size: 1.125rem; cursor: pointer; transition: 0.3s; padding: 1.2rem;">
+    ค้นหา
+  </button>
+
+</div>
+
+
+
+
+
+    </div>
+
   </section>
 
   <!-- GAME LIST -->
-\<section id="category" class="max-w-6xl mx-auto py-10 px-4">
-  <h2 class="text-2xl font-bold mb-6">Recommended Games</h2>
-  <div id="games" class="grid md:grid-cols-3 sm:grid-cols-2 gap-8"></div>
-  <div id="pagination" class="flex justify-center items-center gap-2 mt-12 flex-wrap"></div>
-</section>
+  \<section id="category" class="max-w-6xl mx-auto py-10 px-4">
+    <h2 class="text-2xl font-bold mb-6">Recommended Games</h2>
+    <div id="games" class="grid md:grid-cols-3 sm:grid-cols-2 gap-8"></div>
+    <div id="pagination" class="flex justify-center items-center gap-2 mt-12 flex-wrap"></div>
+  </section>
   <!-- POPUP -->
 
   <div id="popup" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
@@ -107,47 +157,49 @@
 
 
   <!-- FOOTER -->
+  <footer id="contact" class="relative overflow-hidden border-t border-white/10"
+    style="position: relative; padding: 6rem 1.5rem 3rem; background-color: #000000; font-family: 'Inter', -apple-system, sans-serif; color: white;">
 
-  <!-- FOOTER -->
-  <footer id="contact" class="bg-white py-12 border-t">
+    <div
+      style="position: absolute; inset: 0; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); opacity: 0.1; z-index: 1;">
+    </div>
 
-    <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10">
+    <div class="relative z-10 max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10">
 
-      <!-- LEFT -->
       <div class="space-y-4">
-        <h3 class="text-xl font-bold text-gray-800">NTER Board Game Cafe</h3>
+        <h3 class="text-xl font-bold text-white">NTER Board Game Cafe</h3>
 
-        <div class="text-gray-600 space-y-2">
-          <p class="font-medium text-gray-800">เครื่องดื่มร้อน-เย็น คุณภาพ & Nintendo Switch</p>
+        <div class="text-gray-300 space-y-2">
+          <p class="font-medium text-white">เครื่องดื่มร้อน-เย็น คุณภาพ & Nintendo Switch</p>
 
           <p>
             ค่าบริการ:
             <span class="font-semibold text-red-500">30 บาท/ชั่วโมง/คน</span>
           </p>
 
-          <p class="bg-red-50 p-3 rounded-lg border-l-4 border-red-500">
+          <p class="bg-red-500/10 p-3 rounded-lg border-l-4 border-red-500 text-gray-200">
             🔥 โปรโมชั่น: เล่นเกิน 4 ชั่วโมง 119 บาท
           </p>
         </div>
       </div>
-
-      <!-- CONTACT -->
+  <!-- CONTACT -->
       <div>
-        <h3 class="text-lg font-bold mb-3">Contact</h3>
+        <h3 class="text-lg font-bold mb-3 text-white">Contact</h3>
 
-        <ul class="text-gray-600 space-y-1">
+        <ul class="text-gray-300 space-y-1">
           <li><strong>Line:</strong> @ntercafe</li>
           <li><strong>Facebook:</strong> NTER Board Game cafe</li>
           <li><strong>โทร:</strong> 080-5359565</li>
           <li class="ml-8">062-8244555</li>
         </ul>
 
-        <h3 class="text-lg font-bold mt-6 mb-2">Open - Closed</h3>
-        <p class="text-gray-600">อังคาร - ศุกร์</p>
-        <p class="text-xl font-semibold text-gray-800">12:00 - 24:00</p>
+        <h3 class="text-lg font-bold mt-6 mb-2 text-white">Open - Closed</h3>
+        <p class="text-gray-400">อังคาร - ศุกร์</p>
+        <p class="text-xl font-semibold text-white">12:00 - 24:00</p>
       </div>
 
-      <!-- MAP -->
+       
+    <!-- MAP -->
       <div>
         <h3 class="text-lg font-bold mb-3">Location</h3>
 
@@ -169,15 +221,14 @@
 
     </div>
 
-    <div class="max-w-6xl mx-auto px-6 mt-10 pt-6 border-t text-center text-gray-400 text-sm">
-      &copy; 2026 NTER Board Game Cafe
+    <div class="max-w-6xl mx-auto px-6 mt-10 pt-6 border-t border-white/5 text-center text-gray-500 text-sm">
+      © 2026 NTER Board Game Cafe
     </div>
 
   </footer>
-
   <script type="module" src="script.js"></script>
 
- 
+
 </body>
 
 </html>

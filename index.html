@@ -161,8 +161,8 @@
     style="position: relative; padding: 6rem 1.5rem 3rem; background-color: #000000; font-family: 'Inter', -apple-system, sans-serif; color: white;">
 
     <div
-      style="position: absolute; inset: 0; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); opacity: 0.1; z-index: 1;">
-    </div>
+  style="position: absolute; inset: 0; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); opacity: 0.1; z-index: 1; pointer-events: none;">
+</div>
 
     <div class="relative z-10 max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10">
 
@@ -200,24 +200,28 @@
 
        
     <!-- MAP -->
-      <div>
-        <h3 class="text-lg font-bold mb-3">Location</h3>
+<div>
+  <h3 class="text-lg font-bold mb-3 text-white">Location</h3>
 
-        <div class="rounded-xl overflow-hidden shadow border hover:shadow-xl transition">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7653.625415914086!2d102.82500690919078!3d16.43433579712373!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31228bdf2cd62fb3%3A0xa266bc09c48a2098!2zTlRFUiDguJrguK3guKPguYzguJTguYDguIHguKHguITguLLguYDguJ_guYg!5e0!3m2!1sth!2sth!4v1774450085846!5m2!1sth!2sth"
-            class="w-full h-48 grayscale opacity-90"
-            style="border:0;"
-            loading="lazy">
-          </iframe>
-        </div>
+  <!-- Google Map -->
+  <div class="rounded-xl overflow-hidden shadow border hover:shadow-xl transition">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3826.812647042123!2d102.82814558541806!3d16.43433888909312!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31228bdf2cd62fb3%3A0xa266bc09c48a2098!2zTlRFUiDguJrguK3guKPguYzguJTguYDguIHguKHguITguLLguYDguJ_guYg!5e0!3m2!1sth!2sus!4v1774541197335!5m2!1sth!2sus" 
+      
+      class="w-full h-48 grayscale opacity-90 pointer-events-none"
+      style="border:0;"
+      loading="lazy">
+    </iframe>
+  </div>
 
-        <a href="https://maps.google.com/?q=16.43433579712373,102.82500690919078"
-          target="_blank"
-          class="inline-block mt-2 text-sm text-blue-600 hover:underline">
-          📍 เปิดใน Google Maps
-        </a>
-      </div>
+  <!-- ปุ่มเปิด Google Maps -->
+  <a href="https://www.google.com/maps?q=16.43433579712373,102.82500690919078"
+     target="_blank"
+     rel="noopener noreferrer"
+     class="relative z-20 inline-block mt-3 text-sm text-blue-400 hover:underline">
+     📍 เปิดใน Google Maps
+  </a>
+</div>
 
     </div>
 

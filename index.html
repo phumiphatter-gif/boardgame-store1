@@ -31,7 +31,8 @@
         <a href="#home" class="hover:text-red-600">หน้าแรก</a>
         <a href="#category" class="hover:text-red-600">หมวดหมู่</a>
         <a href="#contact" class="hover:text-red-600">ติดต่อเรา</a>
-
+<a href="admin.html" class="bg-red-500 text-white px-2 py-1 md:px-4 md:py-1 rounded">
+          Admin
       
         </a>
       </div>
@@ -103,12 +104,9 @@
     <select id="categoryFilter" onchange="filterGames()"
             style="width: 100%; padding: 1.2rem; border: none; font-size: 1rem; outline: none; background-color: white; cursor: pointer; color: #000000; height: 100%;">
       <option value="All">เกมทั้งหมด</option>
-      <option value="เกมวางแผน">เกมวางแผน</option>
-      <option value="เกมปาร์ตี้">เกมปาร์ตี้</option>
-      <option value="เกมการ์ด">เกมการ์ด</option>
-      <option value="เกมจับโกหก">เกมจับโกหก</option>
-      <option value="เกมบริหารทรัพยากร">เกมบริหารทรัพยากร</option>
+    
     </select>
+
   </div>
 
   <button onclick="filterGames()"
@@ -127,34 +125,50 @@
   </section>
 
   <!-- GAME LIST -->
-  \<section id="category" class="max-w-6xl mx-auto py-10 px-4">
+  <section id="category" class="max-w-6xl mx-auto py-10 px-4">
     <h2 class="text-2xl font-bold mb-6">Recommended Games</h2>
     <div id="games" class="grid md:grid-cols-3 sm:grid-cols-2 gap-8"></div>
     <div id="pagination" class="flex justify-center items-center gap-2 mt-12 flex-wrap"></div>
   </section>
   <!-- POPUP -->
+<!-- POPUP -->
+<div id="popup" 
+     class="fixed inset-0 bg-black/70 hidden z-50 flex items-center justify-center"
+     onclick="closePopup()">
 
-  <div id="popup" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+  <!-- POPUP BOX -->
+  <div class="bg-white w-[900px] max-w-[95%] rounded-2xl shadow-2xl flex overflow-hidden relative"
+       onclick="event.stopPropagation()">
 
-    <div class="bg-white p-6 rounded-lg w-80 text-center">
+  
 
-      <img id="popupImg" class="w-full h-40 object-cover mb-2">
+    <!-- LEFT IMAGE -->
+   <div style="width: 45%; height: 500px; display:flex; align-items:center; justify-content:center; background:#eee;">
+  <img id="popupImg"
+       style="max-width: 100%; max-height: 100%; object-fit: contain;">
+</div>
 
-      <h2 id="popupName" class="text-xl font-bold"></h2>
+    <!-- RIGHT CONTENT -->
+    <div style="width: 55%; padding: 30px; display: flex; flex-direction: column;">
 
-      <p id="popupCategory" class="text-gray-500"></p>
+      <h2 id="popupName" style="font-size: 28px; font-weight: bold;"></h2>
+      <p id="popupCategory" style="color: #6366f1; margin-bottom: 10px;"></p>
 
-      <p id="popupDesc" class="mt-2"></p>
+      <div style="height: 1px; background: #e5e7eb; margin: 10px 0 20px 0;"></div>
 
-      <button onclick="closePopup()" class="mt-4 bg-red-500 text-white px-4 py-2 rounded">
-        ปิด
+      <div style="background: #f3f4f6; padding: 15px; border-radius: 10px; height: 250px; overflow-y: auto;">
+        <p id="popupDesc" style="font-size: 14px; line-height: 1.6;"></p>
+      </div>
+
+      <button onclick="closePopup()" 
+              style="margin-top: auto; background: #ef4444; color: white; padding: 12px; border-radius: 10px;">
+        ปิดหน้าต่าง
       </button>
 
     </div>
 
   </div>
-
-
+</div>
   <!-- FOOTER -->
   <footer id="contact" class="relative overflow-hidden border-t border-white/10"
     style="position: relative; padding: 6rem 1.5rem 3rem; background-color: #000000; font-family: 'Inter', -apple-system, sans-serif; color: white;">

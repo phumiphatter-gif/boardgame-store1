@@ -66,20 +66,44 @@ window.deleteCategory = async function (id) {
 /* GAME FUNCTIONS */
 window.loadGames = async function () {
   const table = document.getElementById("gameTable");
-  table.innerHTML = ""; await loadCategories();
+  table.innerHTML = ""; 
+  await loadCategories(); // โหลดหมวดหมู่
+  
   const querySnapshot = await getDocs(collection(db, "games"));
   let gameCount = 0;
+
+  // 1. เก็บข้อมูลลง Array ก่อนเพื่อเตรียม Sort
+  let gamesList = [];
   querySnapshot.forEach((docSnap) => {
-    const game = docSnap.data(); const id = docSnap.id; gameCount++;
+    gamesList.push({ id: docSnap.id, ...docSnap.data() });
+  });
+
+  // 2. เรียงลำดับชื่อเกม A-Z และ ก-ฮ
+  gamesList.sort((a, b) => {
+    const nameA = (a.name || "").toLowerCase();
+    const nameB = (b.name || "").toLowerCase();
+    return nameA.localeCompare(nameB, 'th');
+  });
+
+  // 3. วนลูปสร้างแถวจากข้อมูลที่เรียงลำดับแล้ว
+  gamesList.forEach((game) => {
+    const id = game.id; 
+    gameCount++;
     table.innerHTML += `<tr class="border-b">
         <td class="p-2"><img src="${game.image}" class="w-16 h-16 object-cover mx-auto rounded shadow"></td>
-        <td class="font-medium">${game.name}</td><td>${game.category}</td><td class="space-x-2">
+        <td class="font-medium">${game.name}</td>
+        <td>${game.category}</td>
+        <td class="space-x-2">
           <button onclick="openEdit('${id}')" class="bg-yellow-500 text-white px-2 py-1 rounded text-sm">Edit</button>
           <button onclick="deleteGame('${id}')" class="bg-red-500 text-white px-2 py-1 rounded text-sm">Delete</button>
         </td></tr>`;
   });
+
   document.getElementById("totalGames").innerText = gameCount;
 };
+
+
+
 
 window.addGame = function () {
   const btn = document.getElementById("addBtn");

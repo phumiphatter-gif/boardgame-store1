@@ -25,13 +25,22 @@ const gamesPerPage = 20;  // จำกัดหน้าละ 20 เกม
 async function loadGames() {
   const querySnapshot = await getDocs(collection(db, "games"));
   games = [];
+
   querySnapshot.forEach((doc) => {
     games.push(doc.data());
   });
-  
+  // เรียงลำดับเกมตามชื่อ (A-Z และ ก-ฮ)
+  games.sort((a, b) => {
+    return (a.name || "").localeCompare((b.name || ""), 'th');
+  });
+  //
+   console.log("games:", games);
   filteredGames = [...games];
+
+  renderCategories(); // 
   renderGames();
 }
+
 
 /* =========================
    SHOW GAME CARDS (3 คอลัมน์ + ปุ่มอยู่ท้าย)
@@ -80,14 +89,9 @@ function renderGames() {
 
   renderPagination();
 }
+
 /* =========================
-   PAGINATION (ระบบเลขหน้า 1 2 3 4)
-========================= */
-/* =========================
-   PAGINATION (ดีไซน์ใหม่: มีปุ่มไปหน้า-กลับหน้า)
-========================= */
-/* =========================
-   PAGINATION (ดีไซน์กรอบสี่เหลี่ยมแยกชิ้นตามรูปที่ 2)
+   PAGINATION 
 ========================= */
 function renderPagination() {
   const paginationContainer = document.getElementById("pagination");
@@ -128,7 +132,6 @@ function renderPagination() {
    // ... (โค้ดส่วนบนคงเดิม)
 
     if (isActive) {
-      // เปลี่ยนเป็นสีแดง (Red 500 จาก Tailwind หรือ #ef4444)
       btn.style.backgroundColor = "#ef4444"; 
       btn.style.color = "white";
       btn.style.borderColor = "#ef4444";
@@ -183,19 +186,33 @@ function renderPagination() {
 /* =========================
    POPUP DETAIL
 ========================= */
+/* =========================
+   POPUP DETAIL
+========================= */
 window.showDetail = function(index) {
   const game = filteredGames[index];
+  if (!game) return;
+
+  // ใส่ข้อมูลลง popup
   document.getElementById("popupImg").src = game.image;
   document.getElementById("popupName").innerText = game.name;
-  document.getElementById("popupCategory").innerText = game.category;
-  document.getElementById("popupDesc").innerText = game.desc || "";
+  document.getElementById("popupCategory").innerText = game.category || "";
+  document.getElementById("popupDesc").innerText =
+    game.desc || "ไม่มีรายละเอียดเพิ่มเติมสำหรับเกมนี้";
+
+  // เปิด popup
   document.getElementById("popup").classList.remove("hidden");
+
+  // ล็อค scroll ด้านหลัง
+  document.body.style.overflow = "hidden";
 }
 
 window.closePopup = function() {
   document.getElementById("popup").classList.add("hidden");
-}
 
+  // ปลดล็อค scroll
+  document.body.style.overflow = "auto";
+}
 /* =========================
    SEARCH + FILTER
 ========================= */
@@ -230,4 +247,29 @@ function scrollToCategory() {
       behavior: 'smooth'           // เลื่อนแบบนุ่มนวล
     });
   }
+}
+
+
+function renderCategories() {
+  const select = document.getElementById("categoryFilter");
+
+  if (!select) {
+    console.log("ไม่เจอ select ");
+    return;
+  }
+
+  const categories = [...new Set(
+    games.map(game => game.category)
+  )].filter(cat => cat);
+
+  console.log("categories:", categories);
+
+  select.innerHTML = `<option value="All">เกมทั้งหมด</option>`;
+
+  categories.forEach(cat => {
+    const option = document.createElement("option");
+    option.value = cat;
+    option.textContent = cat;
+    select.appendChild(option);
+  });
 }

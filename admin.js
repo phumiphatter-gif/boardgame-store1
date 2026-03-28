@@ -14,7 +14,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 let editID = null;
 let editCatID = null;
-
+let allGamesList = [];
 /* CATEGORY FUNCTIONS */
 window.loadCategories = async function () {
   const catTable = document.getElementById("catTable");
@@ -67,18 +67,20 @@ window.deleteCategory = async function (id) {
 window.loadGames = async function () {
   const table = document.getElementById("gameTable");
   table.innerHTML = ""; 
-  await loadCategories(); // โหลดหมวดหมู่
+  await loadCategories(); 
   
   const querySnapshot = await getDocs(collection(db, "games"));
   let gameCount = 0;
 
-  // 1. เก็บข้อมูลลง Array ก่อนเพื่อเตรียม Sort
   let gamesList = [];
   querySnapshot.forEach((docSnap) => {
     gamesList.push({ id: docSnap.id, ...docSnap.data() });
   });
 
-  // 2. เรียงลำดับชื่อเกม A-Z และ ก-ฮ
+
+  allGamesList = gamesList; 
+ 
+
   gamesList.sort((a, b) => {
     const nameA = (a.name || "").toLowerCase();
     const nameB = (b.name || "").toLowerCase();
@@ -140,4 +142,34 @@ window.saveEdit = async function () {
     reader.onload = async function (e) { data.image = e.target.result; await updateDoc(doc(db, "games", editID), data); closeEdit(); loadGames(); };
     reader.readAsDataURL(file);
   } else { await updateDoc(doc(db, "games", editID), data); closeEdit(); loadGames(); }
+};
+
+
+// --- ฟังก์ชันค้นหาเกม (วางไว้ท้ายสุดของไฟล์) ---
+window.filterAdminGames = function() {
+    const keyword = document.getElementById("adminSearchInput").value.toLowerCase();
+    const table = document.getElementById("gameTable");
+    const totalGamesText = document.getElementById("totalGames");
+    
+    // กรองข้อมูลจาก allGamesList ที่โหลดไว้ใน loadGames
+    const filtered = allGamesList.filter(game => {
+        return (game.name || "").toLowerCase().includes(keyword) || 
+               (game.category || "").toLowerCase().includes(keyword);
+    });
+
+    // ล้างตารางเดิมแล้ววาดเฉพาะตัวที่ค้นหาเจอ
+    table.innerHTML = "";
+    filtered.forEach((game) => {
+        table.innerHTML += `<tr class="border-b">
+            <td class="p-2"><img src="${game.image}" class="w-16 h-16 object-cover mx-auto rounded shadow"></td>
+            <td class="font-medium">${game.name}</td>
+            <td>${game.category}</td>
+            <td class="space-x-2">
+              <button onclick="openEdit('${game.id}')" class="bg-yellow-500 text-white px-2 py-1 rounded text-sm">Edit</button>
+              <button onclick="deleteGame('${game.id}')" class="bg-red-500 text-white px-2 py-1 rounded text-sm">Delete</button>
+            </td></tr>`;
+    });
+
+    // อัปเดตตัวเลขจำนวนเกมตามที่ค้นเจอ
+    totalGamesText.innerText = filtered.length;
 };

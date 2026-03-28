@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายละเอียดเกม - NTER</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Kanit', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+    <div class="fixed top-4 left-4 z-50">
+        <button onclick="history.back()" 
+                class="bg-white/90 backdrop-blur-sm shadow-md hover:bg-white text-gray-800 px-4 py-2 rounded-full flex items-center gap-2 transition-all font-medium">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            กลับหน้าหลัก
+        </button>
+    </div>
+
+    <div class="flex flex-col lg:flex-row min-h-screen">
+        
+        <div class="w-full lg:w-1/2 lg:h-screen lg:sticky lg:top-0 bg-white flex items-center justify-center p-4 lg:p-12">
+            <img id="gameImg" 
+                 class="w-full h-auto max-h-[60vh] lg:max-h-[85vh] object-contain drop-shadow-2xl rounded-2xl" 
+                 src="" alt="Game Image">
+        </div>
+
+        <div class="w-full lg:w-1/2 p-6 md:p-12 lg:p-20 flex flex-col justify-start bg-gray-50/50">
+            <div class="max-w-2xl">
+                <p id="gameCat" class="text-indigo-600 font-semibold tracking-wide uppercase text-sm mb-2"></p>
+                <h1 id="gameName" class="text-3xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight"></h1>
+                
+                <div class="h-1 w-20 bg-indigo-500 mb-8 rounded-full"></div>
+
+                <div class="prose prose-indigo max-w-none">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">รายละเอียดเกม</h3>
+                    <p id="gameDesc" class="text-gray-600 leading-relaxed text-lg whitespace-pre-line"></p>
+                </div>
+
+                <div class="h-20"></div>
+            </div>
+        </div>
+    </div>
+
+ <!-- FOOTER -->
+  <footer id="contact" class="relative overflow-hidden border-t border-white/10"
+    style="position: relative; padding: 6rem 1.5rem 3rem; background-color: #000000; font-family: 'Inter', -apple-system, sans-serif; color: white;">
+
+    <div
+  style="position: absolute; inset: 0; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); opacity: 0.1; z-index: 1; pointer-events: none;">
+</div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10">
+
+      <div class="space-y-4">
+        <h3 class="text-xl font-bold text-white">NTER Board Game Cafe</h3>
+
+        <div class="text-gray-300 space-y-2">
+          <p class="font-medium text-white">เครื่องดื่มร้อน-เย็น คุณภาพ & Nintendo Switch</p>
+
+          <p>
+            ค่าบริการ:
+            <span class="font-semibold text-red-500">30 บาท/ชั่วโมง/คน</span>
+          </p>
+
+          <p class="bg-red-500/10 p-3 rounded-lg border-l-4 border-red-500 text-gray-200">
+            🔥 โปรโมชั่น: เล่นเกิน 4 ชั่วโมง 119 บาท
+          </p>
+        </div>
+      </div>
+  <!-- CONTACT -->
+      <div>
+        <h3 class="text-lg font-bold mb-3 text-white">Contact</h3>
+
+        <ul class="text-gray-300 space-y-1">
+          <li><strong>Line:</strong> @ntercafe</li>
+          <li><strong>Facebook:</strong> NTER Board Game cafe</li>
+          <li><strong>โทร:</strong> 080-5359565</li>
+          <li class="ml-8">062-8244555</li>
+        </ul>
+
+        <h3 class="text-lg font-bold mt-6 mb-2 text-white">Open - Closed</h3>
+        <p class="text-gray-400">อังคาร - ศุกร์</p>
+        <p class="text-xl font-semibold text-white">12:00 - 24:00</p>
+      </div>
+
+       
+    <!-- MAP -->
+<div>
+  <h3 class="text-lg font-bold mb-3 text-white">Location</h3>
+
+  <!-- Google Map -->
+  <div class="rounded-xl overflow-hidden shadow border hover:shadow-xl transition relative group">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15307.250973448763!2d102.833017!3d16.434334!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31228bdf2cd62fb3%3A0xa266bc09c48a2098!2zTlRFUiDguJrguK3guKPguYzguJTguYDguIHguKHguITguLLguYDguJ_guYg!5e0!3m2!1sth!2sus!4v1774715815826!5m2!1sth!2sus" 
+    class="w-full h-48 opacity-90 transition-all group-hover:opacity-100"
+    style="border:0;"
+    allowfullscreen=""
+    loading="lazy">
+  </iframe>
+</div>
+  <!-- ปุ่มเปิด Google Maps -->
+ <a href="https://maps.app.goo.gl/aKw7gBkqodgiLQYN7" 
+   target="_blank"
+   rel="noopener noreferrer"
+   class="relative z-20 inline-flex items-center mt-3 text-sm text-blue-400 hover:text-blue-300 transition-colors">
+   <span class="mr-1">📍</span> เปิดใน Google Maps
+</a>
+</div>
+
+    </div>
+
+    <div class="max-w-6xl mx-auto px-6 mt-10 pt-6 border-t border-white/5 text-center text-gray-500 text-sm">
+      © 2026 NTER Board Game Cafe
+    </div>
+
+  </footer>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAnug1LvphDK9nJE25Pxj6Loy9jbfw4LdM",
+            authDomain: "boardgame-store-d6a50.firebaseapp.com",
+            projectId: "boardgame-store-d6a50",
+            storageBucket: "boardgame-store-d6a50.firebasestorage.app",
+            messagingSenderId: "587237445477",
+            appId: "1:587237445477:web:542283bb74a03c55de9b8c"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        async function getDetail() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+
+            if (id) {
+                const docRef = doc(db, "games", id);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const game = docSnap.data();
+                    document.getElementById("gameImg").src = game.image;
+                    document.getElementById("gameName").innerText = game.name;
+                    document.getElementById("gameCat").innerText = `หมวดหมู่: ${game.category}`;
+                    document.getElementById("gameDesc").innerText = game.desc || "ไม่มีรายละเอียดเพิ่มเติมสำหรับเกมนี้";
+                    
+                    // เปลี่ยน Title ตามชื่อเกม
+                    document.title = `${game.name} - รายละเอียดเกม`;
+                } else {
+                    document.body.innerHTML = `<div class="flex h-screen items-center justify-center text-xl">ไม่พบข้อมูลเกม</div>`;
+                }
+            }
+        }
+        getDetail();
+        
+    </script>
+    
+</body>
+</html>

@@ -27,14 +27,15 @@ async function loadGames() {
   games = [];
 
   querySnapshot.forEach((doc) => {
-    games.push(doc.data());
+    // แก้ไขตรงนี้: เก็บ id เข้าไปใน object ด้วย
+    games.push({ id: doc.id, ...doc.data() });
   });
   // เรียงลำดับเกมตามชื่อ (A-Z และ ก-ฮ)
   games.sort((a, b) => {
     return (a.name || "").localeCompare((b.name || ""), 'th');
   });
   //
-   console.log("games:", games);
+  console.log("games:", games);
   filteredGames = [...games];
 
   renderCategories(); // 
@@ -76,11 +77,11 @@ function renderGames() {
             <p class="text-sm text-indigo-600 font-medium">${game.category}</p>
           </div>
 
-          <button onclick="showDetail(${actualIndex})" 
-                  class="mt-4 w-full bg-indigo-500 hover:bg-indigo-600 text-white py-2 rounded-lg text-sm transition-colors font-medium"
-                  style="border: none !important; cursor: pointer !important;">
-            รายละเอียด
-          </button>
+          <a href="product-detail.html?id=${game.id}" 
+   class="mt-4 w-full bg-indigo-500 hover:bg-indigo-600 text-white py-2 rounded-lg text-sm transition-colors font-medium text-center block"
+   style="text-decoration: none !important;">
+   รายละเอียด
+</a>
         </div>
 
       </div>
@@ -115,7 +116,7 @@ function renderPagination() {
   const createBtn = (content, onClick, isDisable, isActive) => {
     const btn = document.createElement("button");
     btn.innerHTML = content;
-    
+
     // สไตล์พื้นฐาน: กรอบสี่เหลี่ยม, พื้นหลังขาว, เส้นขอบเทาบาง
     btn.style.width = "40px";
     btn.style.height = "40px";
@@ -129,10 +130,10 @@ function renderPagination() {
     btn.style.fontWeight = "500";
     btn.style.transition = "all 0.2s";
 
-   // ... (โค้ดส่วนบนคงเดิม)
+    // ... (โค้ดส่วนบนคงเดิม)
 
     if (isActive) {
-      btn.style.backgroundColor = "#ef4444"; 
+      btn.style.backgroundColor = "#ef4444";
       btn.style.color = "white";
       btn.style.borderColor = "#ef4444";
     } else if (isDisable) {
@@ -143,17 +144,17 @@ function renderPagination() {
       btn.style.backgroundColor = "#ffffff";
       btn.style.color = "#4b5563";
       // เอฟเฟกต์ตอน Hover เปลี่ยนเป็นขอบสีแดง
-      btn.onmouseover = () => { 
-        btn.style.borderColor = "#ef4444"; 
-        btn.style.color = "#ef4444"; 
+      btn.onmouseover = () => {
+        btn.style.borderColor = "#ef4444";
+        btn.style.color = "#ef4444";
       };
-      btn.onmouseout = () => { 
-        btn.style.borderColor = "#e5e7eb"; 
-        btn.style.color = "#4b5563"; 
+      btn.onmouseout = () => {
+        btn.style.borderColor = "#e5e7eb";
+        btn.style.color = "#4b5563";
       };
     }
 
-// ... (โค้ดส่วนล่างคงเดิม)
+    // ... (โค้ดส่วนล่างคงเดิม)
     btn.onclick = isDisable ? null : onClick;
     return btn;
   };
@@ -186,37 +187,28 @@ function renderPagination() {
 /* =========================
    POPUP DETAIL
 ========================= */
-/* =========================
-   POPUP DETAIL
-========================= */
-window.showDetail = function(index) {
+
+window.showDetail = function (index) {
   const game = filteredGames[index];
   if (!game) return;
 
-  // ใส่ข้อมูลลง popup
   document.getElementById("popupImg").src = game.image;
   document.getElementById("popupName").innerText = game.name;
   document.getElementById("popupCategory").innerText = game.category || "";
   document.getElementById("popupDesc").innerText =
-    game.desc || "ไม่มีรายละเอียดเพิ่มเติมสำหรับเกมนี้";
+    game.desc || "ไม่มีรายละเอียด";
 
-  // เปิด popup
-  document.getElementById("popup").classList.remove("hidden");
+  const popup = document.getElementById("popup");
 
-  // ล็อค scroll ด้านหลัง
+  popup.classList.remove("hidden");
+
+  // 🔥 ล็อค scroll หน้าเว็บด้านหลัง
   document.body.style.overflow = "hidden";
 }
-
-window.closePopup = function() {
-  document.getElementById("popup").classList.add("hidden");
-
-  // ปลดล็อค scroll
-  document.body.style.overflow = "auto";
-}
-/* =========================
+/* ========================
    SEARCH + FILTER
 ========================= */
-window.filterGames = function() {
+window.filterGames = function () {
   const keyword = document.getElementById("search").value.toLowerCase();
   const category = document.getElementById("categoryFilter").value;
 
@@ -240,9 +232,9 @@ loadGames();
 function scrollToCategory() {
   // พยายามหาตำแหน่งของ id="category" (หัวข้อประเภท) หรือ id="games" (รายการเกม)
   const target = document.getElementById('category') || document.getElementById('games');
-  
+
   if (target) {
-    window.scrollTo({ 
+    window.scrollTo({
       top: target.offsetTop - 100, // เลื่อนขึ้นไปให้เหนือเป้าหมาย 100px เพื่อไม่ให้ติดขอบจอเกินไป
       behavior: 'smooth'           // เลื่อนแบบนุ่มนวล
     });
@@ -272,4 +264,13 @@ function renderCategories() {
     option.textContent = cat;
     select.appendChild(option);
   });
+}
+
+window.closePopup = function () {
+  const popup = document.getElementById("popup");
+
+  popup.classList.add("hidden");
+
+  // ปลดล็อค scroll หน้าเว็บ
+  document.body.style.overflow = "auto";
 }

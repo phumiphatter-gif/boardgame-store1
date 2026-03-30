@@ -42,12 +42,8 @@ async function loadGames() {
   renderGames();
 }
 
-
 /* =========================
-   SHOW GAME CARDS (3 คอลัมน์ + ปุ่มอยู่ท้าย)
-========================= */
-/* =========================
-   SHOW GAME CARDS (ฉบับแก้ไข: รูปบน ชื่อและปุ่มล่าง)
+   SHOW GAME CARDS 
 ========================= */
 function renderGames() {
   const container = document.getElementById("games");
